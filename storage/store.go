@@ -86,8 +86,8 @@ func NewReminder(phone string, lunar bool, year int, month int, day int, h int, 
 	}
 }
 
-func AddItem(phone string, lunar bool, year int, month int, day int, h int, m int, s int, leap bool, event string) {
-	reminder := NewReminder(phone, lunar, year, month, day, h, m, s, leap, event)
+func AddItem(phone string, lunar bool, year int, month int, day int, h int, m int, leap bool, event string) {
+	reminder := NewReminder(phone, lunar, year, month, day, h, m, 0, leap, event)
 	count := calendar.Count + 1
 	calendar.Data[count] = reminder
 	SaveData()
@@ -99,8 +99,9 @@ func LoadData() {
 	if err != nil {
 		log.Redln(err)
 	}
-	if err := json.Unmarshal(jsonBytes, &calendar); err == nil {
-		log.Greenln(calendar)
+	err = json.Unmarshal(jsonBytes, &calendar)
+	if err != nil {
+		log.Redln("load config failed")
 	}
 }
 

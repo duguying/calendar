@@ -2,6 +2,8 @@ package storage
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/duguying/calendar/sms"
 	"github.com/gogather/com"
 	"github.com/gogather/com/log"
 	"github.com/gogather/lunar"
@@ -57,6 +59,7 @@ type Reminder struct {
 }
 
 func (r *Reminder) CheckBirth() {
+
 	now := time.Now()
 	nowSolor := lunarsolar.TimeToSolar(now)
 	nowLunar := lunarsolar.SolarToLunar(*nowSolor)
@@ -75,7 +78,8 @@ func (r *Reminder) CheckBirth() {
 					if now.Minute() == r.RemindTimeMinute {
 						if now.Second() == r.RemindTimeSecond {
 							// shoot
-							log.Blueln("==== Time Up ====")
+							log.Blueln("==== Birthday Remind ====")
+							sms.SendSMS(r.Phone, fmt.Sprintf("%d-%d-%d", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay), r.Event)
 						}
 					}
 				}

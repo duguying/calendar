@@ -2,7 +2,6 @@ package loop
 
 import (
 	"github.com/duguying/calendar/storage"
-	"github.com/gogather/com/log"
 	"time"
 )
 
@@ -50,6 +49,7 @@ func perDay(tick int) {
 }
 
 func perSecond(tick int) {
+	storage.LoadData()
 	calendar := storage.GetCalendar()
 	data := calendar.Data
 	for _, reminder := range data {

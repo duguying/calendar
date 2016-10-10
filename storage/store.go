@@ -8,6 +8,7 @@ import (
 	"github.com/gogather/com/log"
 	"github.com/gogather/lunar"
 	"path/filepath"
+	"sort"
 	"time"
 )
 
@@ -91,6 +92,24 @@ func (r *Reminder) CheckBirth() {
 type Calendar struct {
 	Count int              `json:"count"`
 	Data  map[int]Reminder `json:"data"`
+}
+
+func (c *Calendar) ListAll() {
+	count := c.Count
+	data := c.Data
+	log.Bluef("共%d条提醒\n", count)
+
+	sorted_keys := make([]int, 0)
+	for k, _ := range data {
+		sorted_keys = append(sorted_keys, k)
+	}
+	sort.Ints(sorted_keys)
+
+	for _, idx := range sorted_keys {
+		r := data[idx]
+		log.Pinkf("[%d]\t", idx)
+		log.Greenf("%d-%d-%d %d:%d:%d\t%s\n", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay, r.RemindTimeHour, r.RemindTimeMinute, r.RemindTimeSecond, r.Event)
+	}
 }
 
 var calendar Calendar

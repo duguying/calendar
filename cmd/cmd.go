@@ -25,3 +25,10 @@ var CmdRemove = cli.Command{
 	Description: `id as arguments`,
 	Action:      RemoveRemind,
 }
+
+var CmdList = cli.Command{
+	Name:        "list",
+	Usage:       "This command should will list all reminder from calendar config",
+	Description: `list all reminder`,
+	Action:      ListRemind,
+}

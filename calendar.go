@@ -16,6 +16,7 @@ func main() {
 		cmd.CmdServe,
 		cmd.CmdAdd,
 		cmd.CmdRemove,
+		cmd.CmdList,
 	}
 
 	storage.InitStorage()

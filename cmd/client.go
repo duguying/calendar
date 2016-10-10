@@ -101,3 +101,8 @@ func RemoveRemind(c *cli.Context) {
 		storage.RemoveItem(id)
 	}
 }
+
+func ListRemind(c *cli.Context) {
+	calendar := storage.GetCalendar()
+	calendar.ListAll()
+}

@@ -10,7 +10,6 @@ import (
 )
 
 func AddRemind(c *cli.Context) {
-	log.Pinkln("add")
 	phone, lunar, year, month, day, hours, minute, leap, event := parseArgs(c)
 	storage.AddItem(phone, lunar, year, month, day, hours, minute, leap, event)
 }
@@ -94,5 +93,11 @@ func parseArgs(c *cli.Context) (phone string, lunar bool, year int, month int, d
 }
 
 func RemoveRemind(c *cli.Context) {
-	log.Pinkln("remove")
+	idStr := c.Args().First()
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		log.Fatalln(err)
+	} else {
+		storage.RemoveItem(id)
+	}
 }

@@ -90,7 +90,25 @@ func AddItem(phone string, lunar bool, year int, month int, day int, h int, m in
 	reminder := NewReminder(phone, lunar, year, month, day, h, m, 0, leap, event)
 	count := calendar.Count + 1
 	calendar.Data[count] = reminder
+	calendar.Count = count
+	log.Pinkf("add [%d] ", count)
+	log.Bluef("%d-%d-%d %d:%d %s\n", reminder.RemindTimeYear, reminder.RemindTimeMonth, reminder.RemindTimeDay, reminder.RemindTimeHour, reminder.RemindTimeMinute, reminder.Event)
 	SaveData()
+}
+
+func RemoveItem(id int) {
+	count := calendar.Count
+	if _, ok := calendar.Data[id]; ok {
+		data := calendar.Data[id]
+		log.Pinkf("remove [%d] ", id)
+		log.Bluef("%d-%d-%d %d:%d %s\n", data.RemindTimeYear, data.RemindTimeMonth, data.RemindTimeDay, data.RemindTimeHour, data.RemindTimeMinute, data.Event)
+		delete(calendar.Data, id)
+		calendar.Count = count - 1
+
+		SaveData()
+	} else {
+		log.Yellowf("reminder [%d] not exist\n", id)
+	}
 }
 
 func LoadData() {

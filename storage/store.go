@@ -80,7 +80,21 @@ func (r *Reminder) CheckBirth() {
 						if now.Second() == r.RemindTimeSecond {
 							// shoot
 							log.Blueln("==== Birthday Remind ====")
-							sms.SendSMS(r.Phone, fmt.Sprintf("%d-%d-%d", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay), r.Event)
+							sms.SendSMS(r.Phone, fmt.Sprintf("(农历)\t%d-%d-%d", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay), r.Event)
+						}
+					}
+				}
+			}
+		}
+	} else {
+		if nowSolor.SolarMonth == r.RemindTimeMonth {
+			if nowSolor.SolarDay == r.RemindTimeDay {
+				if now.Hour() == r.RemindTimeHour {
+					if now.Minute() == r.RemindTimeMinute {
+						if now.Second() == r.RemindTimeSecond {
+							// shoot
+							log.Blueln("==== Birthday Remind ====")
+							sms.SendSMS(r.Phone, fmt.Sprintf("(阳历)\t%d-%d-%d", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay), r.Event)
 						}
 					}
 				}
@@ -107,8 +121,12 @@ func (c *Calendar) ListAll() {
 
 	for _, idx := range sorted_keys {
 		r := data[idx]
+		dateType := "阳历"
+		if r.RemindTimeIsLunar {
+			dateType = "农历"
+		}
 		log.Pinkf("[%d]\t", idx)
-		log.Greenf("%d-%d-%d %d:%d:%d\t%s\n", r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay, r.RemindTimeHour, r.RemindTimeMinute, r.RemindTimeSecond, r.Event)
+		log.Greenf("(%s)\t%d-%d-%d %d:%d:%d\t%s\n", dateType, r.RemindTimeYear, r.RemindTimeMonth, r.RemindTimeDay, r.RemindTimeHour, r.RemindTimeMinute, r.RemindTimeSecond, r.Event)
 	}
 }
 

@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"github.com/gogather/com"
 	"github.com/gogather/com/log"
+	"github.com/gogather/lunar"
 	"path/filepath"
+	"time"
 )
 
 func InitStorage() {
@@ -52,6 +54,34 @@ type Reminder struct {
 	RemindTimeLeap   bool `json:"leap"`
 
 	Event string `json:"event"`
+}
+
+func (r *Reminder) CheckBirth() {
+	now := time.Now()
+	nowSolor := lunarsolar.TimeToSolar(now)
+	nowLunar := lunarsolar.SolarToLunar(*nowSolor)
+	if r.RemindTimeIsLunar {
+		lunarDate := lunarsolar.Lunar{
+			IsLeap:     r.RemindTimeLeap,
+			LunarDay:   r.RemindTimeDay,
+			LunarMonth: r.RemindTimeMonth,
+			LunarYear:  r.RemindTimeYear,
+		}
+
+		// compare
+		if lunarDate.LunarMonth == nowLunar.LunarMonth {
+			if lunarDate.LunarDay == nowLunar.LunarDay {
+				if now.Hour() == r.RemindTimeHour {
+					if now.Minute() == r.RemindTimeMinute {
+						if now.Second() == r.RemindTimeSecond {
+							// shoot
+							log.Blueln("==== Time Up ====")
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 type Calendar struct {
@@ -128,4 +158,8 @@ func SaveData() {
 		fullpath := getConfigPath()
 		com.WriteFile(fullpath, string(b))
 	}
+}
+
+func GetCalendar() *Calendar {
+	return &calendar
 }

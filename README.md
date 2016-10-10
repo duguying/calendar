@@ -14,9 +14,9 @@ go get -u github.com/duguying/calendar
 `sms.tpl` as follow
 
 ```
-xxxxxxx%dxxxxxxx%dxxxxx
+xxxxxxx%sxxxxxxx%sxxxxx
 ```
-the first %d will be time, the second %d will be event description.
+the first %s will be time, the second %s will be event description.
 
 ### service
 

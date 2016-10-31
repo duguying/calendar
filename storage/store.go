@@ -162,7 +162,11 @@ func AddItem(phone string, lunar bool, year int, month int, day int, h int, m in
 	count := calendar.Count + 1
 	calendar.Data[count] = reminder
 	calendar.Count = count
-	log.Pinkf("add [%d] ", count)
+	isLunar := "(阳历)"
+	if lunar {
+		isLunar = "(农历)"
+	}
+	log.Pinkf("add [%d] %s ", count, isLunar)
 	log.Bluef("%d-%d-%d %d:%d %s\n", reminder.RemindTimeYear, reminder.RemindTimeMonth, reminder.RemindTimeDay, reminder.RemindTimeHour, reminder.RemindTimeMinute, reminder.Event)
 	SaveData()
 }
